@@ -3,25 +3,18 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    """
-    프로젝트의 모든 설정값을 관리하는 클래스입니다.
-    현업에서는 하드코딩(숫자를 코드에 직접 박는 것)을 피하고
-    이렇게 설정 파일로 분리하여 관리합니다.
-    """
-    # === 파일 경로 설정 ===
-    AUTH_IMAGE_FILE: str = "me_camera.jpg"  # 주인 얼굴 사진 파일명
-    SECRET_FILE: str = "secret.xlsx"        # 실행할 보안 파일명
+    # === 경로 설정 ===
+    # 주인님들 사진이 들어있는 폴더
+    AUTH_FACES_DIR: str = "auth_faces" 
+    # 학습된 얼굴 데이터가 저장될 파일 (확장자 pickle)
+    ENCODINGS_SAVE_FILE: str = "encodings.pickle"
+    SECRET_FILE: str = "secret.xlsx"
     
-    # === 보안 민감도 설정 ===
-    # 이 값이 낮을수록 엄격하게 검사합니다. (0.4 ~ 0.5 추천)
-    TOLERANCE: float = 0.50
+    # === 인식 설정 ===
+    TOLERANCE: float = 0.4  # 엄격함 정도 (낮을수록 엄격)
+    MODEL: str = "hog"       # "hog"(빠름/일반) 또는 "cnn"(느림/정확-GPU필요)
     
     # === 시스템 설정 ===
-    # 얼굴 인식을 몇 번 실패해야 잠글지 결정 (너무 낮으면 깜빡임에 잠길 수 있음)
-    PATIENCE_LIMIT: int = 20
-    
-    # 몇 프레임마다 얼굴 인식을 수행할지 (1이면 매 프레임, 숫자가 높으면 성능 향상)
-    CHECK_INTERVAL: int = 3
-    
-    # 프로그램 창 이름
-    WINDOW_NAME: str = "Smart Security Curtain"
+    PATIENCE_LIMIT: int = 2 #n번의 실패를 하면 화면 전환 회수
+    CHECK_INTERVAL: int = 5  # 5프레임마다 인식 수행
+    WINDOW_NAME: str = "Smart Security System"
